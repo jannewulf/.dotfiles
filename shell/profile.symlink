@@ -1,0 +1,22 @@
+# ~/.profile has the stuff NOT specifically related to bash, such as environment variables (PATH and friends)
+# Anything that should be available to graphical applications OR to sh (or bash invoked as sh) MUST be in ~/.profile
+# Anything that should be available only to login shells should go in ~/.profile
+# https://superuser.com/a/789465
+
+# root directory of the dotfiles
+export DOTFILES=/home/janne/.dotfiles
+
+# add the dotfile bin dir to the PATH variable
+export PATH="$PATH":"$DOTFILES"/bin
+
+# find the aliases defined in the dotfiles directory and include them
+find $DOTFILES -name alias.sh | \
+while read aliases ; do
+	source "${aliases}" ;
+done
+
+# find the functions defined in the dotfiles directory and include them
+find $DOTFILES -name functions.sh | \
+while read functions ; do
+	source "${functions}" ;
+done
