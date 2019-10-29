@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# link the files as normally but create a backup if a file with this name already exists
+# if you want to link to 'a.txt' but this file already exists, a backup with the name
+# 'a.txt.backup' will be created
+
+if [ -f "$2" ]; then
+  if [ -r "$2" ] && [ -w $(dirname "$2") ]; then
+    mv "$2" "$2".backup
+  else
+    echo "ln-backup: unable to backup $2, check permissions. Not linked." >&2
+    exit 1
+  fi
+fi
+
+ln -s $1 $2
+exit $?
