@@ -12,18 +12,21 @@ check-sudo() {
 }
 
 install-ask() {
-  if YES-no "Do you want to install $1?"; then 
+  NAME="$(basename $(dirname $1))"
+  if YES-no "Do you want to install $NAME?"; then 
     rml
     rml
-	  install $1
+	  install $1 $NAME
+    return $?
   else
     rml
   fi
 }
 
 install() {
-  info "Installing $1"
-	#sh -c "${$1/install.sh}"
+  info "Installing $2"
+	sh -c "$1"
+  return $?
 }
 
 source ./script/helper/helper.sh
@@ -45,7 +48,6 @@ fi
 # find the installers and run them iteratively
 find . -maxdepth 2 -name install.sh > /tmp/to_install.txt
 while read -u 3 installer ; do
-  NAME="$(basename $(dirname ${installer}))"
   # todo: handle case where everything is installed without asking
-  install-ask $NAME
+  install-ask ${installer}
 done 3< /tmp/to_install.txt
