@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# Run all setup scripts
+
+setup-ask() {
+  if YES-no "Do you want to setup $1?"; then 
+    rml
+    rml
+	  setup $1
+  else
+    rml
+  fi
+}
+
+setup() {
+  info "Setting up $1"
+  #sh -c "${$1/setup.sh}"
+}
+
+source ./script/helper/helper.sh
+source ./script/helper/logging.sh
+
+validate-dotfiles-env-var
+cd "$DOTFILES"
+
+source ./shell/profile.symlink
+
+# find the setup scripts and run them iteratively
+find . -maxdepth 2 -name setup.sh > /tmp/to_setup.txt
+while read -u 3 setter ; do
+  NAME="$(basename $(dirname ${setter}))"
+  # todo: handle case where everything is set up without asking
+  setup-ask $NAME
+done 3< /tmp/to_setup.txt
