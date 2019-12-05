@@ -53,6 +53,7 @@ while read -u 3 installer ; do
 done 3< /tmp/to_install.txt
 
 if [ IS_SUDO=true ]; then
+  info "Install apt and snap updates"
   sudo apt update &>/dev/null
   sudo apt upgrade -y &>/dev/null
   sudo snap refresh &>/dev/null
