@@ -1,5 +1,14 @@
 {
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
-    "editor.tabSize": 2
+
+    "editor.tabSize": 2,
+    
+    "files.associations": {
+        "*.tpp": "cpp"
+    },
+    
+    "window.zoomLevel": 0,
+
+    "latex-workshop.view.pdf.viewer": "tab",
 }
