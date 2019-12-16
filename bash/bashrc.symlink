@@ -28,18 +28,6 @@ else
 fi
 
 # set prompt
-current_branch_prompt () {
-  git branch 2>/dev/null | awk '/^\*/ {print " ["$2"]"}'
-}
-user_info_prompt () {
-  if [ $SESSION_TYPE = "remote/ssh" ]; then
-    printf "[%s@%s]" $(whoami) $(hostname)
-  else
-    printf "[%s]" $(whoami)
-  fi
-}
-#export PS1='\[\e[38;5;136m\]$(user_info_prompt)\[\e[38;5;125m\]$(current_branch_prompt)\[\e[39m\] :: \[\e[38;5;37m\]\W\[\e[39m\] > '
-
 PROMPT_COMMAND="__prompt_command;$PROMPT_COMMAND"
 function __prompt_command() {
   local EXIT="$?"
