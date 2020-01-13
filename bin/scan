@@ -1,0 +1,87 @@
+#!/bin/bash
+
+## This is a workaround for the broken batch scan of scanimage (Throws error 
+## after first page). 
+## It also uses default parameters that I use frequently.
+
+set -e
+
+device=$SCANNER_NAME
+out_path=/tmp/scan$(date +"%s%N")
+count=1
+x=210
+y=297
+resolution=300
+mode=Color
+format=tiff
+batch_format="%04d.tiff"
+
+YES-no() {
+  while true; do
+    read -p "$1 [Y|n] " -n 1 -r < /dev/tty
+    case "$REPLY" in
+      [Y,y] ) return 0;;
+      ""    ) return 0;;
+      [N,n] ) return 1;;
+    esac
+  done
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -x )                  shift
+                          x=$1
+                          ;;
+    -y )                  shift
+                          y=$1
+                          ;;
+    --resolution )        shift
+                          resolution=$1
+                          ;;
+    --mode )              shift
+                          mode=$1
+                          ;;
+    --format )            shift
+                          format=$1
+                          ;;
+    -b | --batch )        shift
+                          batch_format=$1
+                          ;;
+    -d | --device-name )  shift
+                          device=$1
+                          ;;
+    -c | --count )        shift
+                          count=$1
+                          ;;
+    -o | --out )          shift
+                          out_path=$1
+                          ;;
+  esac
+  shift
+done
+
+if [ -z $device ]; then
+  device_param=""
+else
+  device_param="-d $device"
+fi
+
+mkdir -p $out_path
+for i in $(seq 1 $count); do
+  filename=$(printf "$batch_format" "$i")
+  
+  until scanimage $device_param -x $x -y $y --resolution $resolution --mode $mode --format=$format > "$out_path"/"$filename"
+  do
+    YES-no "Try again?" || exit 1
+  done
+  
+  echo "$out_path"/"$filename"
+  
+  if [ "$i" -lt "$count" ]; then
+    >&2 echo "Press any key to continue with next page."
+    read -s -n 1
+  fi
+done
+
+exit 0
+
