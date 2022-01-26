@@ -1,1 +1,0 @@
-Inspired by [FinnGu/earthview-wallpaper](https://github.com/FinnGu/earthview-wallpaper)

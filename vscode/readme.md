@@ -1,1 +1,0 @@
-https://code.visualstudio.com/docs/editor/extension-gallery#_command-line-extension-management
