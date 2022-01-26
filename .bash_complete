@@ -1,0 +1,3 @@
+# Make wizard zines browsable with wzine command
+complete -W "$(wzines)" wzine
+
