@@ -6,15 +6,6 @@
 # https://superuser.com/a/789499
 [[ $- == *i* ]] || return 0
 
-# Run tmux
-#if command -v tmux &> /dev/null && \
-#   [ -n "$PS1" ] && \
-#   [[ ! "$TERM" =~ screen ]] && \
-#   [[ ! "$TERM" =~ tmux ]] && \
-#   [ -z "$TMUX" ]; then
-#  exec tmux
-#fi
-
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
