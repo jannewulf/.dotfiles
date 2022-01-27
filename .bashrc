@@ -29,7 +29,7 @@ fi
 
 # Cannot be defined in .local/bin because 'cd' would only affect the subshell
 function mkcd() {
-  mkdir -p "$1" && cd "$1"
+  mkdir -p "$@" && cd "$1"
 }
 
 # set prompt
