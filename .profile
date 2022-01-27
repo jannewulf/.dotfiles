@@ -3,14 +3,5 @@
 # Anything that should be available only to login shells should go in ~/.profile
 # https://superuser.com/a/789465
 
-if [ -d "$HOME/bin" ]; then
-    PATH="$HOME/bin:$PATH"
-fi
+PATH="$HOME/.local/bin:$PATH"
 
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -f ~/.profile.local ]; then
-    . ~/.profile.local
-fi

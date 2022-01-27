@@ -107,15 +107,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-if [ -f ~/.bash_fn ]; then
-    . ~/.bash_fn
-fi
-
 if [ -f ~/.bash_complete ]; then
     . ~/.bash_complete
-fi
-
-if [ -f ~/.bashrc.local ]; then
-    . ~/.bashrc.local
 fi
 

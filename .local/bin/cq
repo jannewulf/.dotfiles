@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# pretty print csv, name is inspired by json tool jq
+
+column -t -s, -n "$@" | less -F -S -X -K
+

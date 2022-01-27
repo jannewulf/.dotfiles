@@ -1,0 +1,4 @@
+#!/bin/bash
+
+curl -fsSL https://wizardzines.com/comics/"$1"/"$1".png | kitty +kitten icat
+
