@@ -45,6 +45,3 @@ alias reload="exec ${SHELL} -l"
 alias week="date +%V" # print week number
 alias speedtest="wget -O /dev/null http://speed.transip.nl/100mb.bin"
 
-if [ -f ~/.bash_aliases.local ]; then
-    . ~/.bash_aliases.local
-fi
