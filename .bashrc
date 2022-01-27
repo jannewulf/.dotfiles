@@ -36,6 +36,11 @@ else
   esac
 fi
 
+# Cannot be defined in .local/bin because 'cd' would only affect the subshell
+function mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
 # set prompt
 PROMPT_COMMAND="__prompt_command;$PROMPT_COMMAND"
 function __prompt_command() {
