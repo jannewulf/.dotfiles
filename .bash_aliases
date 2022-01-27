@@ -21,9 +21,9 @@ alias gd='git diff'
 alias gs='git status -sb --show-stash'
 alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
 
-# Clipboard, usage: echo test | clipboard; echo < $(pasteclip)
-alias clipboard='xclip -selection clipboard -rmlastnl'
-alias pasteclip='xclip -selection clipboard -out'
+# Clipboard, usage: echo test | pbcopy; echo < $(pbpaste)
+alias pbcopy='xclip -in -rmlastnl -selection clipboard'
+alias pbpaste='xclip -out -selection clipboard'
 
 alias svenv='source venv/bin/activate'
 
