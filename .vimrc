@@ -26,7 +26,3 @@ set ttimeoutlen=50
 " Treat files as filetypes
 autocmd! BufRead,BufNewFile *.tpp setfiletype c
 
-" Load machine specific .vimrc file
-if filereadable("~/.vimrc.local")
-  source ~/.vimrc.local
-endif
