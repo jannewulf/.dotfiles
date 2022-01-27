@@ -30,8 +30,11 @@ alias svenv='source venv/bin/activate'
 # type fuck if you forgot sudo
 alias fuck='sudo $(history -p !!)'
 
-alias updatereboot='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; sudo reboot now'
-alias updateshutdown='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; sudo shutdown now'
+# Package management
+alias update='sudo apt update && sudo apt upgrade && sudo apt autoremove'
+alias install='sudo apt install'
+alias remove='sudo apt remove'
+alias search='apt-cache search'
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
