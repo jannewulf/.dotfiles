@@ -38,4 +38,5 @@
     #     order to allow any of the above configs to be overwritten
     #     by the local ones
 
-    path = ~/.gitconfig.local
+    path = ~/.config/git/config.local
+
