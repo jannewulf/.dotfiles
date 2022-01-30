@@ -1,6 +1,7 @@
 [core]
 	editor = vim
   excludesfile = ~/.config/git/ignore
+  pager = delta
 
 [alias]
   amend = commit --amend --reuse-message=HEAD
@@ -15,6 +16,24 @@
   st = status
   unstage = reset --hard HEAD
   whoami = "!sh -c 'printf \"$(git config user.name) ($(git config user.email))\n\"'"
+
+[include]
+  path = ~/.config/delta/themes.gitconfig
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+  syntax-theme = "Solarized (dark)"
+
+[merge]
+  conflictstyle = diff3
+
+[diff]
+  colorMoved = default
 
 [user]
     # Do not guess the user's identity.
