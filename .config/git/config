@@ -1,5 +1,6 @@
 [core]
 	editor = vim
+  excludesfile = ~/.config/git/ignore
 
 [alias]
   amend = commit --amend --reuse-message=HEAD
