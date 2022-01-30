@@ -7,10 +7,12 @@
   ci = commit
   co = checkout
   d = diff
+  dh = diff HEAD
   l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
   ld = "!sh -c \"git log --since '${1:-1} days ago' --oneline --author $(git config user.email)\" -"
   s = status -sb --show-stash
   st = status
+  unstage = reset --hard HEAD
   whoami = "!sh -c 'printf \"$(git config user.name) ($(git config user.email))\n\"'"
 
 [user]
