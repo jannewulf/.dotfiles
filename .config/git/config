@@ -1,0 +1,55 @@
+[core]
+  editor = vim
+  excludesfile = ~/.config/git/ignore
+  pager = delta
+
+[alias]
+  amend = commit --amend --reuse-message=HEAD
+  a = add
+  ci = commit
+  co = checkout
+  d = diff
+  dh = diff HEAD
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  ld = "!sh -c \"git log --since '${1:-1} days ago' --oneline --author $(git config user.email)\" -"
+  s = status -sb --show-stash
+  st = status
+  unstage = reset --hard HEAD
+  whoami = "!sh -c 'printf \"$(git config user.name) ($(git config user.email))\n\"'"
+
+[include]
+  path = ~/.config/delta/themes.gitconfig
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+  syntax-theme = "Solarized (dark)"
+
+[merge]
+  conflictstyle = diff3
+
+[diff]
+  colorMoved = default
+
+[user]
+    # Do not guess the user's identity.
+    useConfigOnly = true
+
+    # [!] DO NOT store sensitive information such as the Git user
+    # credentials (`name` / `email`), or things such as the `signingkey`
+    # in this file, add them in `~/.config/git/config.local`!
+
+[credential]
+	helper = cache --timeout=3600
+
+[include]
+    # Load local configs.
+    # [!] The following needs to remain at the end of this file in
+    #     order to allow any of the above configs to be overwritten
+    #     by the local ones
+    path = ~/.config/git/config.local
+

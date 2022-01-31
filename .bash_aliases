@@ -15,11 +15,6 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias g='git'
-alias ga='git add'
-alias gc='git commit'
-alias gd='git diff'
-alias gs='git status -sb --show-stash'
-alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
 
 # Clipboard, usage: echo test | pbcopy; echo < $(pbpaste)
 alias pbcopy='xclip -in -rmlastnl -selection clipboard'

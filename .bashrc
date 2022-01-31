@@ -6,8 +6,7 @@
 # https://superuser.com/a/789499
 [[ $- == *i* ]] || return 0
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# update LINES and COLUMNS variables after each command
 shopt -s checkwinsize
 
 # append to the history file, don't overwrite it and do that with each command executed
@@ -29,7 +28,7 @@ fi
 
 # Cannot be defined in .local/bin because 'cd' would only affect the subshell
 function mkcd() {
-  mkdir -p "$1" && cd "$1"
+  mkdir -p "$@" && cd "$1"
 }
 
 # set prompt
