@@ -96,6 +96,13 @@ setup_linux() {
     esac
   done
 
+  title "Update package manager"
+  do_execute $@ -s "apt update"
+  do_execute $@ -s "apt -y upgrade"
+
+  title "Install required packages"
+  do_execute $@ -s "apt -y install apt-transport-https curl"
+
   setup_linux_impl "${apt_base_path}/server" $@
   [ $ui -eq 1 ] && setup_linux_impl "${apt_base_path}/ui" $@
 }
@@ -105,14 +112,7 @@ setup_linux_impl() {
   local apt_prep="$1"/prepare
   shift
   
-  title "Update package manager"
-  do_execute $@ -s "apt update"
-  do_execute $@ -s "apt -y upgrade"
-
-  title "Install required packages"
-  do_execute $@ -s "apt -y install apt-transport-https curl"
-
-  title "Prepare package installation"
+  title "Prepare package installation and run custom install scripts"
   if [ -d "$apt_prep" ]; then
     for prep in $(find $apt_prep -type f); do
       do_execute $@ $prep
