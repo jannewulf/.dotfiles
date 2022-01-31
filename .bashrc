@@ -81,7 +81,7 @@ function __prompt_command() {
     PS1+="${base01_fg} ${EXIT}${default_color}"
   fi
 
-  PS1+=" > "
+  PS1+=" ❯ "
 }
 
 # colored GCC warnings and errors
@@ -106,3 +106,7 @@ if [ -f ~/.bash_complete ]; then
     . ~/.bash_complete
 fi
 
+
+# BEGIN_KITTY_SHELL_INTEGRATION
+if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
+# END_KITTY_SHELL_INTEGRATION
