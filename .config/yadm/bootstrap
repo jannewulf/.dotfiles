@@ -1,6 +1,8 @@
 #!/bin/bash
 # Inspired and partially copied by https://github.com/gf3/dotfiles
 
+VALID_PARAMS="nsu"
+
 system_type=$(uname -s)
 
 RCol='\e[0m'    # Text Reset
@@ -34,13 +36,12 @@ title() {
 }
 
 warn() {
-  echo "${Red}$@${RCol}" >&2
+  echo -e "${Red}$@${RCol}" >&2
 }
 
 do_execute() {
   local dryRun
   local opt
-  local OPTARG
   local OPTIND
   local sh
   local useSudo
@@ -48,7 +49,7 @@ do_execute() {
   dryRun=0
   useSudo=0
 
-  while getopts "ns" opt; do
+  while getopts ${VALID_PARAMS} opt; do
     case ${opt} in
       n)
         dryRun=1
@@ -56,8 +57,7 @@ do_execute() {
       s)
         useSudo=1
         ;;
-      \?)
-        echo "Invalid option: -$OPTARG" >&2
+      ?)
         ;;
     esac
   done
@@ -71,7 +71,7 @@ do_execute() {
 
   [ $dryRun -eq 1 ] && printf "${Red}(dry run)${RCol} "
 
-  echo -e "\$ $sh"
+  echo -e "${Blu}\$${RCol} $sh"
 
   [ $dryRun -eq 0 ] && sh -c "$sh"
 }
@@ -81,9 +81,30 @@ do_execute() {
 # ───────────────
 
 setup_linux() {
-  local apt_packages="$HOME/.config/yadm/install/apt/server/packages"
-  local apt_prep="$HOME/.config/yadm/install/apt/server/prepare"
+  local opt
+  local OPTIND
+  local ui=0
+  local apt_base_path="$HOME/.config/yadm/install/apt"
+  
+  while getopts ${VALID_PARAMS} opt; do
+    case ${opt} in
+      u)
+        ui=1
+        ;;
+      ?)
+        ;;
+    esac
+  done
 
+  setup_linux_impl "${apt_base_path}/server" $@
+  [ $ui -eq 1 ] && setup_linux_impl "${apt_base_path}/ui" $@
+}
+
+setup_linux_impl() {
+  local apt_packages="$1"/packages
+  local apt_prep="$1"/prepare
+  shift
+  
   title "Update package manager"
   do_execute $@ -s "apt update"
   do_execute $@ -s "apt -y upgrade"
@@ -121,7 +142,7 @@ if [ "$system_type" = "Linux" ]; then
   else
     warn "No support for ${release_name}"
   fi
-elif [ "$system_type" = "Darwin" ]; then
-  warn "MacOS is not yet supported"
+else
+  warn "No support for $system_type"
 fi
 
