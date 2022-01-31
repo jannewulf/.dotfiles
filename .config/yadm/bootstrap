@@ -65,7 +65,7 @@ do_execute() {
 
   sh=$@
 
-  [ $useSudo -eq 1 ] && sh="/usr/bin/sudo $sh"
+  [ $useSudo -eq 1 ] && sh="sudo $sh"
 
   printf "  "
 
@@ -76,26 +76,52 @@ do_execute() {
   [ $dryRun -eq 0 ] && sh -c "$sh"
 }
 
+# ───────────────
+# Setup functions
+# ───────────────
+
+setup_linux() {
+  local apt_packages="$HOME/.config/yadm/install/apt/server/packages"
+  local apt_prep="$HOME/.config/yadm/install/apt/server/prepare"
+
+  title "Update package manager"
+  do_execute $@ -s "apt update"
+  do_execute $@ -s "apt -y upgrade"
+
+  title "Install required packages"
+  do_execute $@ -s "apt -y install apt-transport-https curl"
+
+  title "Prepare package installation"
+  if [ -d "$apt_prep" ]; then
+    for prep in $(find $apt_prep -type f); do
+      do_execute $@ $prep
+    done
+  fi
+
+  title "Installing packages from $apt_packages"
+  if [ -f "$apt_packages" ]; then
+    do_execute $@ -s "apt update"
+    do_execute $@ -s "apt -y install $(tr '\n' ' ' < $apt_packages)"
+  else
+    warn "Missing `$apt_packages` package list"
+  fi
+}
+
 # ────────────
 # Bootstrapper
 # ────────────
 
-echo -e "${BGre}${banner}${RCol}\n\n"
+echo -e "${BGre}${banner}${RCol}\n"
 
 if [ "$system_type" = "Linux" ]; then
   release_name=$(lsb_release -si)
   if [ "$release_name" = "Ubuntu" ]; then
-    title "$system_type $release_name"
-    title "Installing packages from $HOME/.config/yadm/install/apt/server/install"
-    if [ -f "$HOME/.config/yadm/install/apt/server/install" ]; then
-      do_execute $@ -s "apt -y install $(tr '\n' ' ' < $HOME/.config/yadm/install/apt/server/install)"
-    else
-      warn "Missing `$HOME/.config/yadm/install/apt/server/install` package list"
-    fi
+    title "System: $system_type $release_name"
+    setup_linux $@
   else
     warn "No support for ${release_name}"
   fi
 elif [ "$system_type" = "Darwin" ]; then
-  warn "MacOs is not yet supported"
+  warn "MacOS is not yet supported"
 fi
 
