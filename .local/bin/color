@@ -1,0 +1,155 @@
+#!/usr/bin/python3
+
+"""Color conversion
+
+Usage:
+  color [-f <format> | --from <format>] [-t <format> | --to <format>] <color>
+  color [-f <format> | --from <format>] [-t <format> | --to <format>] <red> <green> <blue>
+  color (-h | --help)
+
+  Note: Hex colors often start with a `#`, which introduces a comment in the shell. Escape
+        it or write it as e.g., "#BF616A".
+
+Options:
+  -h, --help                        Show this screen.
+  -f <format>, --from <format>      Color format of the input. One of (auto, hex, rgb) [default: auto]
+  -t <format>, --to <format>        Color format of the output.
+                                    One of (all, color, hex, rgb, shell, shell_bg) [default: all]
+                                    Note: `color` requires a terminal with truecolor support
+"""
+
+from docopt import docopt
+import string
+import sys
+
+COLOR_RESET = '\x1b[0m'
+
+
+def validate_args(argv):
+    if argv['--from'] not in ['auto', 'hex', 'rgb']:
+        print('Invalid format `--from`', file=sys.stderr)
+        exit(1)
+    if argv['--to'] not in ['all', 'color', 'hex', 'rgb', 'shell', 'shell_bg']:
+        print('Invalid format `--to`', file=sys.stderr)
+        exit(1)
+
+
+def detect_format(color_string):
+    if len(color_string) == 7 and color_string[0] == '#' and is_hex(color_string[1:]):
+        return 'hex'
+    if len(color_string) == 6 and is_hex(color_string):
+        return 'hex'
+    if len(color_string.split(',')) == 3 or len(color_string.split(' ')) == 3:
+        return 'rgb'
+    print('Could not detect color format', file=sys.stderr)
+    exit(3)
+
+
+def is_hex(s):
+    return set(s) <= set(string.hexdigits)
+
+
+def convert_hex_to_rgb(color_string):
+    if color_string[0] == '#':
+        color_string = color_string[1:]
+    return hex_to_dec(color_string[0:2]), hex_to_dec(color_string[2:4]), hex_to_dec(color_string[4:6])
+
+
+def hex_to_dec(hex_string):
+    return int(hex_string, base=16)
+
+
+def parse_rgb(color_string):
+    color = color_string.split(',')
+    if len(color) != 3:
+        color = color_string.split(' ')
+    return list(map(int, color))
+
+
+def parse_color(argv):
+    if argv['<color>'] is not None:
+        input_format = argv['--from']
+        if input_format == 'auto':
+            input_format = detect_format(argv['<color>'])
+
+        if input_format == 'hex':
+            return convert_hex_to_rgb(argv['<color>'])
+        elif input_format == 'rgb':
+            return parse_rgb(argv['<color>'])
+    else:
+        return parse_rgb(",".join([argv['<red>'], argv['<green>'], argv['<blue>']]))
+
+
+def color_fg(r, g, b):
+    return f'\x1b[38;2;{r};{g};{b}m'
+
+
+def color_bg(r, g, b):
+    return f'\x1b[48;2;{r};{g};{b}m'
+
+
+def rgb_to_shell_escape_sequence(r, g, b):
+    return f'\\x1b[38;2;{r};{g};{b}m'
+
+
+def validate_color(r, g, b):
+    if not all(map(lambda v: 0 <= v <= 255, [r, g, b])):
+        print('Invalid color', file=sys.stderr)
+        exit(2)
+
+
+def output_color(r, g, b, argv):
+    output_format = argv['--to']
+    verbose = (output_format == 'all')
+    if output_format in ['color', 'all']:
+        draw_color(b, g, r)
+    if output_format in ['rgb', 'all']:
+        print_rgb(r, g, b, verbose)
+    if output_format in ['hex', 'all']:
+        print_hex(r, g, b, verbose)
+    if output_format in ['shell', 'all']:
+        print_shell_escape_fg(r, g, b, verbose)
+    if output_format in ['shell_bg', 'all']:
+        print_shell_escape_bg(r, g, b, verbose)
+
+
+def draw_color(b, g, r):
+    color = color_bg(r, g, b)
+    colored_block = '\n'.join([f'{color} {COLOR_RESET}' * 11] * 5)
+    print(colored_block)
+
+
+def print_rgb(r, g, b, verbose):
+    if verbose:
+        print('RGB: ', end='')
+    print(r, g, b)
+
+
+def print_hex(r, g, b, verbose):
+    if verbose:
+        print('Hex: ', end='')
+    print('#', format(r, "X"), format(g, "X"), format(b, "X"), sep='')
+
+
+def print_shell_escape_fg(r, g, b, verbose):
+    if verbose:
+        print('fg:  ', end='')
+    print(f'\\x1b[38;2;{r};{g};{b}m')
+
+
+def print_shell_escape_bg(r, g, b, verbose):
+    if verbose:
+        print('bg:  ', end='')
+    print(f'\\x1b[48;2;{r};{g};{b}m')
+
+
+def main(argv):
+    validate_args(argv)
+    r, g, b = parse_color(argv)
+    validate_color(r, g, b)
+    output_color(r, g, b, argv)
+
+
+if __name__ == '__main__':
+    arguments = docopt(__doc__)
+    main(arguments)
