@@ -2,13 +2,14 @@
 
 # https://sw.kovidgoyal.net/kitty/binary/
 
-curl -sSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=False
+curl -sSL https://sw.kovidgoyal.net/kitty/installer.sh | sudo sh /dev/stdin launch=n dest=/opt
 
-# Create a symbolic link to add kitty to PATH (assuming ~/.local/bin is in
-# your PATH)
-ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
-# Place the kitty.desktop file somewhere it can be found by the OS
-cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
-# Update the path to the kitty icon in the kitty.desktop file
-sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty.desktop
+sudo ln -sf /opt/kitty.app/bin/kitty /usr/local/bin/
+sudo mkdir -p /usr/local/share/applications
+sudo cp /opt/kitty.app/share/applications/kitty.desktop /usr/local/share/applications/
+sudo sed -i "s|Icon=kitty|Icon=/opt/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/local/share/applications/kitty.desktop
+
+# Introduce kitty to update-alternatives with a priority that should be
+# higher than the default
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/kitty 50
 
