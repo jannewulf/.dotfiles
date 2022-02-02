@@ -13,3 +13,7 @@ sudo sed -i "s|Icon=kitty|Icon=/opt/kitty.app/share/icons/hicolor/256x256/apps/k
 # higher than the default
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/kitty 50
 
+# Remove the 'Open in Terminal' nautilus extension. Because it is limited to the GNOME terminal
+# See: ~/.local/share/nautilus-python/extensions/open-kitty.py
+sudo apt -y remove nautilus-extension-gnome-terminal
+
