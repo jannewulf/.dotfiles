@@ -101,7 +101,7 @@ setup_linux() {
   do_execute $@ -s "apt -y upgrade"
 
   title "Install required packages"
-  do_execute $@ -s "apt -y install apt-transport-https curl dpkg-dev git"
+  do_execute $@ -s "apt -y install apt-transport-https curl dpkg-dev git jq"
 
   setup_linux_impl "${apt_base_path}/server" $@
   [ $ui -eq 1 ] && setup_linux_impl "${apt_base_path}/ui" $@
