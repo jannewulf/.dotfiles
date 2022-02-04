@@ -15,5 +15,7 @@ sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emula
 
 # Remove the 'Open in Terminal' nautilus extension. Because it is limited to the GNOME terminal
 # See: ~/.local/share/nautilus-python/extensions/open-kitty.py
-sudo apt -y remove nautilus-extension-gnome-terminal
+if dpkg -l | cut -d ' ' -f 3 | grep -E "^nautilus-extension-gnome-terminal$"; then
+  sudo apt -y remove nautilus-extension-gnome-terminal
+fi
 
