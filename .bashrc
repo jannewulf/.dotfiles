@@ -64,7 +64,7 @@ function __prompt_command() {
   fi
   PS1+="${yellow_fg}${user_info}${default_color}"
 
-  if git branch >/dev/null 2>1; then
+  if git branch &>/dev/null; then
     local git_branch=$(git branch --show-current)
     PS1+=" ${magenta_fg}[${git_branch}]${default_color}"
   fi
