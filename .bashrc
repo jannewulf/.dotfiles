@@ -11,7 +11,7 @@ shopt -s checkwinsize
 
 # append to the history file, don't overwrite it and do that with each command executed
 shopt -s histappend
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+PROMPT_COMMAND="history -a"
 HISTCONTROL=ignoreboth
 HISTSIZE=2000
 HISTFILESIZE=20000
