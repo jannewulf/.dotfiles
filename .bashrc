@@ -34,52 +34,41 @@ function mkcd() {
 # set prompt
 PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
 function __prompt_command() {
-  local EXIT="$?"
-  PS1=""
+  local exit_code="$?"
 
-  # solarized foreground colors
-  # local base03_fg='\[\e[38;5;234m\]'
-  # local base02_fg='\[\e[38;5;235m\]'
-  local base01_fg='\[\e[38;5;240m\]'
-  # local base00_fg='\[\e[38;5;241m\]'
-  # local base3_fg='\[\e[38;5;244m\]'
-  # local base2_fg='\[\e[38;5;245m\]'
-  # local base1_fg='\[\e[38;5;254m\]'
-  # local base0_fg='\[\e[38;5;230m\]'
-  local yellow_fg='\[\e[38;5;136m\]'
-  # local orange_fg='\[\e[38;5;166m\]'
-  # local red_fg='\[\e[38;5;160m\]'
-  local magenta_fg='\[\e[38;5;125m\]'
-  # local violet_fg='\[\e[38;5;61m\]'
-  local blue_fg='\[\e[38;5;33m\]'
-  local cyan_fg='\[\e[38;5;37m\]'
-  # local green_fg='\[\e[38;5;64m\]'
+  local reset='\[\e[0m\]'
+  local black='\[\e[0;30m\]'
+  local black_bright='\[\e[1;30m\]'
+  local red='\[\e[1;31m\]'
+  local yellow='\[\e[0;33m\]'
+  local blue='\[\e[0;34m\]'
+  local magenta='\[\e[0;35m\]'
+  local cyan='\[\e[0;36m\]'
 
-  local default_color='\[\e[39m\]'
+  local user_info
+  local git_branch
+  local virtual_env
+  local exit_code_str
 
   if [ $SESSION_TYPE = "remote/ssh" ]; then
-    local user_info="[$(whoami)@$(hostname)]"
+    user_info="${yellow}[$(whoami)@$(hostname)]${reset} "
   else
-    local user_info="[$(whoami)]"
+    user_info="${yellow}[$(whoami)]${reset} "
   fi
-  PS1+="${yellow_fg}${user_info}${default_color}"
 
   if git branch &>/dev/null; then
-    local git_branch=$(git branch --show-current)
-    PS1+=" ${magenta_fg}[${git_branch}]${default_color}"
+    git_branch="${magenta}[$(git branch --show-current)]${reset} "
   fi
 
   if [[ $VIRTUAL_ENV ]]; then
-    PS1+=" ${blue_fg}[$(basename $VIRTUAL_ENV)]${default_color}"
+    virtual_env="${blue}[$(basename "$VIRTUAL_ENV")]${reset} "
   fi
 
-  PS1+=" :: ${cyan_fg}\W${default_color}"
-
-  if [ "$EXIT" != "0" ]; then
-    PS1+="${base01_fg} ${EXIT}${default_color}"
+  if [ "$exit_code" != "0" ]; then
+    exit_code_str="${black} ${EXIT}${reset} "
   fi
 
-  PS1+=" ❯ "
+  PS1="${user_info}${git_branch}${virtual_env}:: ${cyan}\W${reset} ${exit_code_str}❯ "
 }
 
 # colored GCC warnings and errors
