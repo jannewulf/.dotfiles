@@ -6,6 +6,9 @@
 # https://superuser.com/a/789499
 [[ $- == *i* ]] || return 0
 
+export EDITOR=vim
+export VISUAL=vim
+
 # update LINES and COLUMNS variables after each command
 shopt -s checkwinsize
 
