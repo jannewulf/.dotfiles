@@ -30,8 +30,8 @@ function check_dotfile_changes() {
   branch_info=$(yadm rev-list --left-right --count master...origin/master)
   upstream=$(echo "$branch_info" | awk '{print $1}')
   downstream=$(echo "$branch_info" | awk '{print $2}')
-  [ "$upstream" != "0" ] && echo "You should push changes to the dotfiles."
-  [ "$downstream" != "0" ] && echo "You should pull changes to the dotfile."
+  [[ "$upstream" != "0" ]] && echo "You should push changes to the dotfiles."
+  [[ "$downstream" != "0" ]] && echo "You should pull changes to the dotfile."
 }
 check_dotfile_changes
 
@@ -52,7 +52,7 @@ function __prompt_command() {
   local virtual_env
   local exit_code_str
 
-  if [ $SESSION_TYPE = "remote/ssh" ]; then
+  if [[ "$SESSION_TYPE" = "remote/ssh" ]]; then
     user_info="${yellow}[$(whoami)@$(hostname)]${reset} "
   else
     user_info="${yellow}[$(whoami)]${reset} "
@@ -62,11 +62,11 @@ function __prompt_command() {
     git_branch="${magenta}[$(git branch --show-current)]${reset} "
   fi
 
-  if [[ $VIRTUAL_ENV ]]; then
+  if [[ "$VIRTUAL_ENV" ]]; then
     virtual_env="${blue}[$(basename "$VIRTUAL_ENV")]${reset} "
   fi
 
-  if [ "$exit_code" != "0" ]; then
+  if [[ "$exit_code" != "0" ]]; then
     exit_code_str="${black} ${EXIT}${reset} "
   fi
 
