@@ -1,2 +1,3 @@
---theme=ansi-dark
+--theme=nord
+# Run 'bat cache --build' to add new themes
 
