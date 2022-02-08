@@ -21,6 +21,20 @@ function mkcd() {
   mkdir -p "$@" && cd "$1"
 }
 
+function check_dotfile_changes() {
+  local branch_info
+  local upstream
+  local downstream
+
+  which yadm &>/dev/null || return
+  branch_info=$(yadm rev-list --left-right --count master...origin/master)
+  upstream=$(echo "$branch_info" | awk '{print $1}')
+  downstream=$(echo "$branch_info" | awk '{print $2}')
+  [ "$upstream" != "0" ] && echo "You should push changes to the dotfiles."
+  [ "$downstream" != "0" ] && echo "You should pull changes to the dotfile."
+}
+check_dotfile_changes
+
 # set prompt
 PROMPT_COMMAND="__prompt_command; $PROMPT_COMMAND"
 function __prompt_command() {
