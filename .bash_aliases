@@ -18,6 +18,10 @@ alias g='git'
 alias r='ranger'
 alias rcd='ranger --choosedir=/tmp/ranger-dir; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir'
 
+if cmd-exists bat; then
+  alias cat='bat --plain'
+fi
+
 # Clipboard, usage: echo test | pbcopy; echo < $(pbpaste)
 alias pbcopy='xclip -in -rmlastnl -selection clipboard'
 alias pbpaste='xclip -out -selection clipboard'
