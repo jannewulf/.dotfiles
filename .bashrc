@@ -44,11 +44,11 @@ function __prompt_command() {
   local exit_code="$?"
 
   local reset='\[\e[0m\]'
-  local black='\[\e[0;30m\]'
   local yellow='\[\e[0;33m\]'
   local blue='\[\e[0;34m\]'
   local magenta='\[\e[0;35m\]'
   local cyan='\[\e[0;36m\]'
+  local black_bright='\[\e[0;90m\]'
 
   local user_info
   local git_branch
@@ -70,7 +70,7 @@ function __prompt_command() {
   fi
 
   if [[ "$exit_code" != "0" ]]; then
-    exit_code_str="${black} ${EXIT}${reset} "
+    exit_code_str="${black_bright} ${exit_code}${reset} "
   fi
 
   PS1="${user_info}${git_branch}${virtual_env}:: ${cyan}\W${reset} ${exit_code_str}❯ "
