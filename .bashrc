@@ -16,16 +16,6 @@ HISTCONTROL=ignoreboth
 HISTSIZE=2000
 HISTFILESIZE=20000
 
-# check if this is a ssh session
-SESSION_TYPE=local
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-  SESSION_TYPE=remote/ssh
-else
-  case $(ps -o comm= -p $PPID) in
-    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
-  esac
-fi
-
 # Cannot be defined in .local/bin because 'cd' would only affect the subshell
 function mkcd() {
   mkdir -p "$@" && cd "$1"
@@ -38,8 +28,6 @@ function __prompt_command() {
 
   local reset='\[\e[0m\]'
   local black='\[\e[0;30m\]'
-  local black_bright='\[\e[1;30m\]'
-  local red='\[\e[1;31m\]'
   local yellow='\[\e[0;33m\]'
   local blue='\[\e[0;34m\]'
   local magenta='\[\e[0;35m\]'
