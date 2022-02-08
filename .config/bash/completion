@@ -9,6 +9,6 @@ fi
 
 # Make wizard zines browsable with wzine command
 if which wzines > /dev/null; then
-  complete -W "$(wzines)" wzine
+  (complete -W "$(wzines)" wzine &)
 fi
 
