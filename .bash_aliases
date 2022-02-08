@@ -15,6 +15,8 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 alias g='git'
+alias r='ranger'
+alias rcd='ranger --choosedir=/tmp/ranger-dir; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir'
 
 # Clipboard, usage: echo test | pbcopy; echo < $(pbpaste)
 alias pbcopy='xclip -in -rmlastnl -selection clipboard'
