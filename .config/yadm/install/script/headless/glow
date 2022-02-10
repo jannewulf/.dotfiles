@@ -1,0 +1,13 @@
+#!/bin/bash
+
+tmp_dir=$(mktemp -d)
+cd "$tmp_dir" || exit 1
+
+git clone https://github.com/charmbracelet/glow.git && \
+cd glow && \
+sed -i 's/fmt.Printf("\\n  Thanks for using Glow!\\n\\n")//' main.go && \
+go build && \
+cp glow ~/.local/bin/
+
+rm -rf "$tmp_dir"
+
