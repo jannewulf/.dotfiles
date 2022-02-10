@@ -1,6 +1,6 @@
 spotify-client
-code
-gir1.2-gconf-2.0
-python-nautilus
+code              # Visual Studio Code
+gir1.2-gconf-2.0  # required for nautilus 'open terminal' extension
+python-nautilus   # required for nautilus 'open terminal' extension
 xclip
 

@@ -32,11 +32,15 @@ END
 # ────────────────
 
 title() {
-  echo -e "${BBlu}❯ ${BGre}${@}${RCol}"
+  echo -e "${BBlu}❯ ${BGre}$*${RCol}"
 }
 
 warn() {
-  echo -e "${BRed}$@${RCol}" >&2
+  echo -e "${BRed}$*${RCol}" >&2
+}
+
+get_packages() {
+  sed -e 's/#.*//' -e '/^[[:space:]]*$/d' -e 's/[[:space:]]\+//g' "$1" | tr '\n' ' '
 }
 
 do_execute() {
@@ -80,7 +84,7 @@ do_execute() {
 # Setup functions
 # ───────────────
 
-setup_linux() {
+setup_ubuntu() {
   local opt
   local OPTIND
   local ui=0
@@ -99,48 +103,48 @@ setup_linux() {
   done
 
   title "Update package manager"
-  do_execute $@ -s "apt update"
-  do_execute $@ -s "apt -y upgrade"
+  do_execute "$@" -s "apt update"
+  do_execute "$@" -s "apt -y upgrade"
 
   title "Install required packages"
-  do_execute $@ -s "apt -y install apt-transport-https curl dpkg-dev git jq"
+  do_execute "$@" -s "apt -y install apt-transport-https curl dpkg-dev git jq"
 
-  setup_linux_apt "${apt_base_path}/headless" $@
-  [ $ui -eq 1 ] && setup_linux_apt "${apt_base_path}/ui" $@
+  setup_apt "${apt_base_path}/headless" "$@"
+  [ $ui -eq 1 ] && setup_apt "${apt_base_path}/ui" "$@"
 
-  setup_linux_script "${install_scripts}/headless" $@
-  [ $ui -eq 1 ] && setup_linux_script "${install_scripts}/ui" $@
+  setup_via_script "${install_scripts}/headless" "$@"
+  [ $ui -eq 1 ] && setup_via_script "${install_scripts}/ui" "$@"
 
-  setup_pip "${pip_packages}" $@
+  setup_pip "${pip_packages}" "$@"
 }
 
-setup_linux_apt() {
+setup_apt() {
   local apt_packages="$1"/packages
   local apt_prep="$1"/prepare
   shift
   
   title "Prepare package installation"
   if [ -d "$apt_prep" ]; then
-    for prep in $(find "$apt_prep" -type f); do
-      do_execute $@ $prep
+    for prep in "$apt_prep"/*; do
+      do_execute "$@" "$prep"
     done
   fi
 
-  title "Installing packages from $apt_packages"
+  title "Installing packages from ${apt_packages#"$HOME"/.config/yadm/}"
   if [ -f "$apt_packages" ]; then
-    do_execute $@ -s "apt update"
-    do_execute $@ -s "apt -y install $(tr '\n' ' ' < $apt_packages)"
+    do_execute "$@" -s "apt update"
+    do_execute "$@" -s "apt -y install $(get_packages $apt_packages)"
   fi
 }
 
-setup_linux_script() {
+setup_via_script() {
   local script_path="$1"
   shift
 
-  title "Run install scripts from ${script_path}"
+  title "Run install scripts from ${script_path#"$HOME"/.config/yadm/}"
   if [ -d "$script_path" ]; then
-    for install_script in $(find "$script_path" -type f); do
-      do_execute $@ "$install_script"
+    for install_script in "$script_path"/*; do
+      do_execute "$@" "$install_script"
     done
   fi
 }
@@ -149,9 +153,9 @@ setup_pip() {
   local pip_packages="$1"
   shift
 
-  title "Install pip packages from ${pip_packages}"
+  title "Install pip packages from ${pip_packages#"$HOME"/.config/yadm/}"
   if [ -f "$pip_packages" ]; then
-    do_execute $@ "pip3 install --user $(tr '\n' ' ' < $pip_packages)"
+    do_execute "$@" "pip3 install --user $(get_packages $pip_packages)"
   fi
 }
 
@@ -165,7 +169,7 @@ if [ "$system_type" = "Linux" ]; then
   release_name=$(lsb_release -si)
   if [ "$release_name" = "Ubuntu" ]; then
     title "System: $system_type $release_name"
-    setup_linux $@
+    setup_ubuntu "$@"
   else
     warn "No support for ${release_name}"
   fi
