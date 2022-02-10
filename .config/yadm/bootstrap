@@ -105,10 +105,10 @@ setup_linux() {
   title "Install required packages"
   do_execute $@ -s "apt -y install apt-transport-https curl dpkg-dev git jq"
 
-  setup_linux_apt "${apt_base_path}/server" $@
+  setup_linux_apt "${apt_base_path}/headless" $@
   [ $ui -eq 1 ] && setup_linux_apt "${apt_base_path}/ui" $@
 
-  setup_linux_script "${install_scripts}/server" $@
+  setup_linux_script "${install_scripts}/headless" $@
   [ $ui -eq 1 ] && setup_linux_script "${install_scripts}/ui" $@
 
   setup_pip "${pip_packages}" $@
