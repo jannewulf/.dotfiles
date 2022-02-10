@@ -28,9 +28,6 @@ alias pbpaste='xclip -out -selection clipboard'
 
 alias svenv='source venv/bin/activate'
 
-# type fuck if you forgot sudo
-alias fuck='sudo $(history -p !!)'
-
 # Package management
 alias update='sudo apt update && sudo apt upgrade && sudo apt autoremove'
 alias install='sudo apt install'
