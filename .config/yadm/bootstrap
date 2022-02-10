@@ -32,11 +32,11 @@ END
 # ────────────────
 
 title() {
-  echo -e "${BBlu}❯ ${Gre}${@}${RCol}"
+  echo -e "${BBlu}❯ ${BGre}${@}${RCol}"
 }
 
 warn() {
-  echo -e "${Red}$@${RCol}" >&2
+  echo -e "${BRed}$@${RCol}" >&2
 }
 
 do_execute() {
@@ -71,7 +71,7 @@ do_execute() {
 
   [ $dryRun -eq 1 ] && printf "${Red}(dry run)${RCol} "
 
-  echo -e "${Blu}\$${RCol} $sh"
+  echo -e "${BBlu}\$${BWhi} $sh ${RCol}"
 
   [ $dryRun -eq 0 ] && sh -c "$sh"
 }
