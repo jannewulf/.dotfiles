@@ -165,6 +165,18 @@ setup_pip() {
 
 echo -e "${BGre}${banner}${RCol}\n"
 
+if [[ ! -w ~/.config/git/config.local ]]; then
+  cat << 'END_GIT_USER' > ~/.config/git/config.local
+[user]
+  name = 
+  email = 
+END_GIT_USER
+  $VISUAL ~/.config/git/config.local
+  title "Git user set to '$(git whoami)'"
+else
+  title "Git user is already set to '$(git whoami)'"
+fi
+
 if [ "$system_type" = "Linux" ]; then
   release_name=$(lsb_release -si)
   if [ "$release_name" = "Ubuntu" ]; then
