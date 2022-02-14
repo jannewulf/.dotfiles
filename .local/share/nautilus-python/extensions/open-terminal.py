@@ -15,7 +15,6 @@ from gi.repository import Nautilus, GObject, GConf
 class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
     def __init__(self):
         self.client = GConf.Client.get_default()
-        self.terminal_command = 
         
     def _open_terminal(self, file):
         filename = unquote(file.get_uri()[7:])
