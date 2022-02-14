@@ -11,10 +11,7 @@ if ! which jq > /dev/null; then
 fi
 
 system_type=$(dpkg-architecture -q DEB_BUILD_ARCH)
-deb_link=$(
-  wget -qO- https://api.github.com/repos/dandavison/delta/releases/latest | \
-  jq -r ".assets[] | select(.name | match(\"git-delta_.*_${system_type}.deb\")) | .browser_download_url"
-)
+deb_link=$(github-release-url dandavison delta "git-delta_.*_${system_type}.deb")
 
 if [ -z $deb_link ]; then
   echo "Cannot find debian package for architecture '${system_type}'" > /dev/stderr
