@@ -116,6 +116,13 @@ setup_ubuntu() {
   [ $ui -eq 1 ] && setup_via_script "${install_scripts}/ui" "$@"
 
   setup_pip "${pip_packages}" "$@"
+
+  title "Set shell to zsh"
+  if cmd-exists zsh; then
+    do_execute "$@" "chsh -s $(which zsh)"
+  else
+    warn "Cannot find zsh"
+  fi
 }
 
 setup_apt() {

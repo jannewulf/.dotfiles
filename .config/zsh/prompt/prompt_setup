@@ -1,0 +1,35 @@
+#!/usr/bin/zsh
+
+# prompt:
+# %F => color dict
+# %f => reset color
+# %~ => current path
+# %n~ => last n parts of current path
+# %n => username
+# %M => host
+# %? => last exit code
+# %(..) => prompt conditional - %(condition.true.false)
+
+prompt_hostname() {
+  [ "$SESSION_TYPE" = "remote/ssh" ] && echo '@%M'
+}
+
+prompt_git() {
+  if git branch &>/dev/null; then
+    echo "%F{magenta}[$(git branch --show-current)]%f "
+  fi
+}
+
+prompt_virtual_env() {
+  [[ -v VIRTUAL_ENV ]] && echo "%F{blue}[$(basename "$VIRTUAL_ENV")]%f "
+}
+
+prompt_setup() {
+  setopt prompt_subst
+
+  PROMPT='%F{yellow}[%n$(prompt_hostname)]%f :: %F{cyan}%1~%f %(0?..%F{8}%?%f )❯ '
+  RPROMPT='$(prompt_virtual_env)$(prompt_git)'
+}
+
+prompt_setup
+

@@ -5,4 +5,5 @@ ranger
 ffmpegthumbnailer # required for ranger video preview
 golang
 python3-pip
+zsh
 

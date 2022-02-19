@@ -1,0 +1,24 @@
+# ~/.profile has the stuff NOT specifically related to bash, such as environment variables (PATH and friends)
+# Anything that should be available to graphical applications OR to sh (or bash invoked as sh) MUST be in ~/.profile
+# Anything that should be available only to login shells should go in ~/.profile
+# https://superuser.com/a/789465
+
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CACHE_HOME="${HOME}/.cache"
+
+export INPUTRC="${XDG_CONFIG_HOME}/shell/inputrc"
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+
+# check if this is a ssh session
+SESSION_TYPE=local
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE=remote/ssh
+else
+  case $(ps -o comm= -p $PPID) in
+    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+  esac
+fi
+
+export PATH="${HOME}/.local/bin:${PATH}"
+

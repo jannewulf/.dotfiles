@@ -1,0 +1,19 @@
+#!/usr/bin/zsh
+
+zmodload zsh/complist
+
+# Auto/Tab complete:
+autoload -U compinit; compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+# Activate completion menu
+zstyle ':completion:*' menu select
+# Use vim keys in tab completion menu
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# Try case insensitive completions when no completions are found
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+
