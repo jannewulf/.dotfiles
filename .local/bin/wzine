@@ -1,4 +1,6 @@
 #!/bin/bash
 
+# Dowload and display the awesome wizard zines from Julia Evans
 curl -fsSL https://wizardzines.com/comics/"$1"/"$1".png | kitty +kitten icat
+echo -e "\033[1mCredits:\033[0m \033[3mJulia Evans (https://wizardzines.com/comics/${1})\033[0m"
 

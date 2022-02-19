@@ -17,3 +17,10 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 # Try case insensitive completions when no completions are found
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
+# Autocompletion for wizard zines. See ~/.local/bin/wzine
+_comp_wzine() {
+  compadd -U $(wzines)
+  compstate[insert]=menu
+}
+compdef _comp_wzine wzine
+
