@@ -17,6 +17,7 @@ alias egrep='egrep --color=auto'
 alias g='git'
 alias r='ranger'
 alias rcd='ranger --choosedir=/tmp/ranger-dir; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir'
+alias edot="yadm ls-files | fzf | xargs -ro $VISUAL"
 
 if cmd-exists bat; then
   alias cat='bat --plain'
