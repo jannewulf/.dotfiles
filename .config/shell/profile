@@ -9,6 +9,7 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 
 export INPUTRC="${XDG_CONFIG_HOME}/shell/inputrc"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+export GOPATH="${XDG_DATA_HOME}/go"
 
 # check if this is a ssh session
 SESSION_TYPE=local

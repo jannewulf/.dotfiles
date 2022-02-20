@@ -1,46 +1,66 @@
-alias ls='ls -hN --color=auto --group-directories-first'
-alias ll='ls -lh'
-alias lla='ls -lhA'
-alias la='ls -A'
-alias l='ls -CF'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -vI'
+alias mkd='mkdir -pv'
 
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias -- -="cd -"                  # Go to previous dir with -
-alias cd.='cd $(readlink -f .)'    # Go to real dir (i.e. if current dir is linked)
 
+# Use implicit sudo
+alias apt='sudo apt'
+alias shutdown='sudo shutdown now'
+alias reboot='sudo reboot'
+alias mount='sudo mount'
+alias umount='sudo umount'
+
+# Make commands more user friendly
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-
-alias g='git'
-alias r='ranger'
-alias rcd='ranger --choosedir=/tmp/ranger-dir; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir'
-alias edot="yadm ls-files | fzf | xargs -ro $VISUAL"
-
+alias ls='ls --color=auto -hN --group-directories-first'
 if cmd-exists bat; then
   alias cat='bat --plain'
 fi
 
-# Clipboard, usage: echo test | pbcopy; echo < $(pbpaste)
+alias l='ls -C'
+alias la='ls -CA'
+alias ll='ls -lh'
+alias lla='ls -lhA'
+
+# Shortcuts
+alias g='git'
+alias ga='g a'
+alias gci='g ci'
+alias gco='g co'
+alias gl='g l'
+alias gld='g ld'
+alias gs='g s'
+alias gst='g st'
+alias r='ranger'
+alias rcd='ranger --choosedir=/tmp/ranger-dir; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir'
+alias edot="yadm -C ~ ls-files | sed 's|^|~/|' | fzf | sed 's|^~|${HOME}|' | xargs -ro $VISUAL"
+alias svenv='source venv/bin/activate'
+alias p='fzf --preview "bat --color "always" --style=numbers,changes {}"'
+alias b='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs -ro bat'
+alias v='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs -ro vim'
+
+# Clipboard. Usage: echo test | pbcopy; echo < $(pbpaste)
 alias pbcopy='xclip -in -rmlastnl -selection clipboard'
 alias pbpaste='xclip -out -selection clipboard'
 
-alias svenv='source venv/bin/activate'
-
 # Package management
 alias update='sudo apt update && sudo apt upgrade && sudo apt autoremove'
-alias install='sudo apt install'
-alias remove='sudo apt remove'
 alias search='apt-cache search'
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
-# Reload the shell (i.e. invoke as a login shell)
+# Reload the shell (uses a login shell, so .profile is loaded, too)
 alias reload="exec ${SHELL} -l"
 
-alias week="date +%V" # print week number
-alias speedtest="wget -O /dev/null http://speed.transip.nl/100mb.bin"
+alias week='date +%V' # print week number
+alias speedtest='wget -O /dev/null http://speed.transip.nl/100mb.bin'
+alias bigf='find / -xdev -type f -size +500M -exec du -h {} \; 2>/dev/null | sort -hr' # List files bigger than 500M
 

@@ -1,2 +1,2 @@
-[ -f "${HOME}/.profile" ] && source "${HOME}/.profile
+[ -f "${HOME}/.profile" ] && source "${HOME}/.profile"
 
