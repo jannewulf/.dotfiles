@@ -11,5 +11,5 @@ if [[ -z "$comic" ]]; then
 fi
 url="https://wizardzines.com/comics/${comic}"
 curl -fsSL "${url}/${comic}.png" | kitty +kitten icat
-echo -e "\033[1mCredits:\033[0m \033[3mJulia Evans (${url})\033[0m"
+echo -e "\033[1;32mCredits:\033[0m \033[3mJulia Evans (${url})\033[0m"
 
