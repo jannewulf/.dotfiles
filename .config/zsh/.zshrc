@@ -1,5 +1,3 @@
-echo "$(date): ${ZDOTDIR}/.zshrc" >> startup-routine
-
 [[ $- == *i* ]] || return 0
 
 export EDITOR=vim
