@@ -166,6 +166,15 @@ setup_pip() {
   fi
 }
 
+setup_macos() {
+  if ! cmd-exists brew; then
+    title "Install Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+  brew bundle install
+}
+
 # ────────────
 # Bootstrapper
 # ────────────
@@ -192,6 +201,9 @@ if [ "$system_type" = "Linux" ]; then
   else
     warn "No support for ${release_name}"
   fi
+elif [ "$system_type" = "Darwin" ]; then
+  title "System: $system_type"
+  setup_macos "$@"
 else
   warn "No support for $system_type"
 fi

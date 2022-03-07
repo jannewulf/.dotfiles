@@ -13,6 +13,11 @@ export GOPATH="${XDG_DATA_HOME}/go"
 
 export JAVA_TOOL_OPTIONS='-Dfile.encoding=UTF-8 -Duser.language=en'
 
+if is-mac && [ -x /opt/homebrew/bin/brew ]; then
+  export HOMEBREW_BUNDLE_FILE="${XDG_CONFIG_HOME}/yadm/install/brew/Brewfile"
+  eval $(/opt/homebrew/bin/brew shellenv)
+fi
+
 # check if this is a ssh session
 SESSION_TYPE=local
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
