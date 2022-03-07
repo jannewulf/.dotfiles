@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Inspired and partially copied by https://github.com/gf3/dotfiles
 
 VALID_PARAMS="nsu"
@@ -172,13 +172,13 @@ setup_pip() {
 
 echo -e "${BGre}${banner}${RCol}\n"
 
-if [[ ! -w ~/.config/git/config.local ]]; then
-  cat << 'END_GIT_USER' > ~/.config/git/config.local
+if [[ ! -w ~/.config/git/config.user ]]; then
+  cat << 'END_GIT_USER' > ~/.config/git/config.user
 [user]
   name = 
   email = 
 END_GIT_USER
-  $VISUAL ~/.config/git/config.local
+  $VISUAL ~/.config/git/config.user
   title "Git user set to '$(git whoami)'"
 else
   title "Git user is already set to '$(git whoami)'"

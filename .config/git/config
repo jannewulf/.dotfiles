@@ -1,7 +1,13 @@
+[include]
+  path = ~/.config/git/config.user
+[user]
+  # Do not guess the user's identity.
+  useConfigOnly = true
+
 [core]
   editor = vim
-  excludesfile = ~/.config/git/ignore
   pager = delta
+  excludesfile = ~/.config/git/ignore
 
 [alias]
   amend = commit --amend --reuse-message=HEAD
@@ -39,21 +45,10 @@
 [diff]
   colorMoved = default
 
-[user]
-    # Do not guess the user's identity.
-    useConfigOnly = true
-
-    # [!] DO NOT store sensitive information such as the Git user
-    # credentials (`name` / `email`), or things such as the `signingkey`
-    # in this file, add them in `~/.config/git/config.local`!
-
 [credential]
 	helper = cache --timeout=3600
 
 [include]
-    # Load local configs.
-    # [!] The following needs to remain at the end of this file in
-    #     order to allow any of the above configs to be overwritten
-    #     by the local ones
-    path = ~/.config/git/config.local
+  # Load local configs. Leave at the end so it can override previous settings.
+  path = ~/.config/git/config.local
 
