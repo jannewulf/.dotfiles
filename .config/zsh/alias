@@ -53,8 +53,13 @@ if is-linux; then
 fi
 
 # Package management
-alias update='sudo apt update && sudo apt upgrade && sudo apt autoremove'
-alias search='apt-cache search'
+if is-linux; then
+  alias update='sudo apt update && sudo apt upgrade && sudo apt autoremove'
+  alias search='apt-cache search'
+elif is-mac; then
+  alias update='brew update; brew upgrade'
+  alias search='brew search'
+fi
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
