@@ -9,6 +9,7 @@ brew "fzf"
 brew "git-delta"
 brew "jq"
 brew "maven"
+brew "nodejs"
 brew "ranger"
 brew "yadm"
 
