@@ -39,7 +39,7 @@ alias gld='g ld'
 alias gs='g s'
 alias gst='g st'
 alias r='ranger'
-alias rcd='ranger --choosedir=/tmp/ranger-dir; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir'
+rcd() { ranger --choosedir=/tmp/ranger-dir "$1"; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir > /dev/null }
 alias edot="yadm -C ~ ls-files | sed 's|^|~/|' | fzf | sed 's|^~|${HOME}|' | xargs -ro $VISUAL"
 alias svenv='source venv/bin/activate'
 alias p='fzf --preview "bat --color "always" --style=numbers,changes {}"'
@@ -47,8 +47,10 @@ alias b='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs
 alias v='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs -ro vim'
 
 # Clipboard. Usage: echo test | pbcopy; echo < $(pbpaste)
-alias pbcopy='xclip -in -rmlastnl -selection clipboard'
-alias pbpaste='xclip -out -selection clipboard'
+if is-linux; then
+  alias pbcopy='xclip -in -rmlastnl -selection clipboard'
+  alias pbpaste='xclip -out -selection clipboard'
+fi
 
 # Package management
 alias update='sudo apt update && sudo apt upgrade && sudo apt autoremove'
