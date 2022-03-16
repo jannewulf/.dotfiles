@@ -16,6 +16,10 @@ setopt notify
 # vi mode
 bindkey -v
 
+# Search history with the arrow keys
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
 # Cannot be defined in .local/bin because 'cd' would only affect the subshell
 function mkcd() {
   mkdir -p "$@" && cd "$1"
