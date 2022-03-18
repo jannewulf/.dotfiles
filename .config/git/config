@@ -9,6 +9,9 @@
   pager = delta
   excludesfile = ~/.config/git/ignore
 
+[init]
+	defaultBranch = main
+
 [alias]
   amend = commit --amend --reuse-message=HEAD
   a = add
