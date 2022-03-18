@@ -46,3 +46,9 @@ source "${XDG_CONFIG_HOME}/zsh/completion"
 fpath=("${XDG_CONFIG_HOME}/zsh/prompt" $fpath)
 autoload -Uz prompt_setup; prompt_setup
 
+
+if is-mac; then
+  source ${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+elif is-linux; then
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
