@@ -45,6 +45,8 @@ alias svenv='source venv/bin/activate'
 alias p='fzf --preview "bat --color "always" --style=numbers,changes {}"'
 alias b='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs -ro bat'
 alias v='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs -ro vim'
+alias keygen='ssh-keygen -t ed25519 -a 100'
+alias keygen-rsa='ssh-keygen -t rsa -b 4096 -o -a 100'
 
 # Clipboard. Usage: echo test | pbcopy; echo < $(pbpaste)
 if is-linux; then
