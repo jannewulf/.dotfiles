@@ -7,11 +7,18 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
+" Show mode in bottom line
+set showmode
+
+" Search while typing
+set incsearch
+
+" Scrolling
+set number relativenumber
+set scrolloff=7
+
 " Activate syntax highlighting
 syntax enable
-
-" Activate relative lines numbers with absolute number for current line
-set number relativenumber
 
 " Indentation settings
 set autoindent smartindent
@@ -23,6 +30,6 @@ set expandtab
 set timeoutlen=500
 set ttimeoutlen=50
 
-" Treat files as filetypes
-autocmd! BufRead,BufNewFile *.tpp setfiletype c
+" Repeat and put cursor to start of change
+nmap . .`[
 
