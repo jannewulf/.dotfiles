@@ -38,6 +38,7 @@ alias gl='g l'
 alias gld='g ld'
 alias gs='g s'
 alias gst='g st'
+alias chx='chmod ug+x'
 alias r='ranger'
 rcd() { ranger --choosedir=/tmp/ranger-dir "$1"; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir > /dev/null }
 alias edot="yadm -C ~ ls-files | sed 's|^|~/|' | fzf | sed 's|^~|${HOME}|' | xargs -ro $VISUAL"
@@ -47,6 +48,9 @@ alias b='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs
 alias v='fzf --preview "bat --color "always" --style=numbers,changes {}" | xargs -ro vim'
 alias keygen='ssh-keygen -t ed25519 -a 100'
 alias keygen-rsa='ssh-keygen -t rsa -b 4096 -o -a 100'
+if is-mac; then
+  alias bb='brew bundle install'
+fi
 
 # Clipboard. Usage: echo test | pbcopy; echo < $(pbpaste)
 if is-linux; then

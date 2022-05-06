@@ -17,6 +17,7 @@
   a = add
   ci = commit
   co = checkout
+  cu = !git branch -l master main | sed 's/^* //' | xargs git checkout && git reset --hard && git pull -pr
   d = diff
   dh = diff HEAD
   ds = diff --staged
