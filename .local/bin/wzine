@@ -9,6 +9,9 @@ if [[ -z "$comic" ]]; then
           sort | \
           fzf)
 fi
+if [[ -z "$comic" ]]; then
+  exit 1
+fi
 url="https://wizardzines.com/comics/${comic}"
 curl -fsSL "${url}/${comic}.png" | kitty +kitten icat
 echo -e "\033[1;32mCredits:\033[0m \033[3mJulia Evans (${url})\033[0m"
