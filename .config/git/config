@@ -13,6 +13,7 @@
 	defaultBranch = main
 
 [alias]
+  alias = !sh -c 'alias-git'
   amend = commit --amend --reuse-message=HEAD
   a = add
   ci = commit

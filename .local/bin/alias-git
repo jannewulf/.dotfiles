@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+git config --get-regexp alias | python3 -c '
+import sys
+
+aliases = []
+for line in sys.stdin:
+    if not line.startswith("alias."):
+        aliases.append(aliases.pop() + "\\n" + line.rstrip())
+    else:
+        alias = line.rstrip()[6:].split(" ", 1)
+        aliases.append(f"{alias[0]}={alias[1]}")
+print("\n".join(aliases))
+' | sort
+
