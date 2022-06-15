@@ -167,12 +167,17 @@ setup_pip() {
 }
 
 setup_macos() {
+  local pip_packages="$HOME/.config/yadm/install/pip/packages"
+
   if ! cmd-exists brew; then
     title "Install Homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
+  title "Install brew packages"
   brew bundle install
+
+  setup_pip "${pip_packages}" "$@"
 }
 
 # ────────────
