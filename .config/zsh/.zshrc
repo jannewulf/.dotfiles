@@ -14,11 +14,12 @@ setopt HIST_SAVE_NO_DUPS
 setopt notify
 
 # vi mode
-bindkey -v
+#bindkey -v
 
-# Search history with the arrow keys
+# Search history with the arrow keys or Ctrl+R
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
+bindkey "^R" history-incremental-pattern-search-backward
 
 # Cannot be defined in .local/bin because 'cd' would only affect the subshell
 function mkcd() {
