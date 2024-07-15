@@ -1,3 +1,9 @@
+# Handle conflicts
+if cmd-exists gs; then
+  alias ghostscript="$(which gs)"
+fi
+
+# Sane defaults
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias rm='rm -vI'
@@ -7,6 +13,8 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias -- -="cd -"                  # Go to previous dir with -
+
+alias ghorg='ghorg --path=$(pwd) --token=$(op read "op://Private/GitLab Token Bolinda Ghorg/token")'
 
 # Use implicit sudo
 alias apt='sudo apt'
@@ -40,7 +48,7 @@ alias gs='g s'
 alias gst='g st'
 alias chx='chmod ug+x'
 alias r='ranger'
-rcd() { ranger --choosedir=/tmp/ranger-dir "$1"; cd $(< /tmp/ranger-dir); rm -f /tmp/ranger-dir > /dev/null }
+rcd() { ranger --choosedir=/tmp/ranger-dir "$1"; cd "$(< /tmp/ranger-dir)"; rm -f /tmp/ranger-dir > /dev/null }
 alias edot="yadm -C ~ ls-files | sed 's|^|~/|' | fzf | sed 's|^~|${HOME}|' | xargs -ro $VISUAL"
 alias svenv='source venv/bin/activate'
 alias p='fzf --preview "bat --color "always" --style=numbers,changes {}"'
@@ -77,3 +85,9 @@ alias week='date +%V' # print week number
 alias speedtest='wget -O /dev/null http://speed.transip.nl/100mb.bin'
 alias bigf='find / -xdev -type f -size +500M -exec du -h {} \; 2>/dev/null | sort -hr' # List files bigger than 500M
 
+alias kx='kubectl config get-contexts | tail -n +2 | fzf | sed "s/*//" | tr -s " " | cut -f 2 -d " " | xargs kubectl config use-context'
+awsp() {
+  export AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" $HOME/.aws/config | fzf --height 12 --reverse --border --preview "sed -n '/\[profile {}\]/,/^$/p' $HOME/.aws/config | bat --color always --language toml  --plain")
+}
+
+alias localstack='container=$(docker run --rm -it -d localstack/localstack:latest); docker exec -it $container bash; docker stop $container'
